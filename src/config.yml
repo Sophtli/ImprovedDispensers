@@ -1,0 +1,46 @@
+enable_durability: true
+require_hoe_for_planting: true
+weapons:
+  diamond_sword: 7
+  iron_sword: 6
+  stone_sword: 5
+  gold_sword: 4
+  wood_sword: 4
+plants:
+  sapling/sapling:
+      - 'dirt'
+      - 'grass'
+  carrot/carrot_item:
+      - 'soil'
+  potato/potato_item:
+      - 'soil'
+  pumpkin_stem/pumpkin_seeds:
+      - 'soil'
+  melon_stem/melon_seeds:
+      - 'soil'
+  beetroot_block/beetroot_seeds:
+      - 'soil'
+  crops/seeds:
+      - 'soil'
+  nether_stalk/nether_warts:
+      - 'soul_sand'
+  chorus_flower/chorus_flower:
+      - 'ender_stone'
+arthropods:
+    - 'spider'
+    - 'cave_spider'
+    - 'silverfish'
+    - 'endermite'
+undead:
+    - 'zombie'
+    - 'skeleton'
+    - 'stray'
+    - 'wither'
+    - 'wither_skeleton'
+    - 'husk'
+    - 'zombie_villager'
+    - 'pig_zombie'
+    - 'drowned'
+    - 'phantom'
+    - 'skeleton_horse'
+    - 'zombie_horse'
