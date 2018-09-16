@@ -23,8 +23,11 @@ public class ImprovedDispensers extends JavaPlugin {
     private List<Plant> plants = new ArrayList<>();
     private List<EntityType> undead = new ArrayList<>();
     private List<EntityType> arthropods = new ArrayList<>();
+    private List<Material> hoes = new ArrayList<>();
+    private List<Material> tools = new ArrayList<>();
     private boolean hoeRequired = true;
     private boolean durabilityEnabled = true;
+    private boolean toolRequired = true;
     
     private Logger logger;
 
@@ -45,6 +48,11 @@ public class ImprovedDispensers extends JavaPlugin {
     }
 
     private void loadConfig(){
+    	
+    	hoeRequired = getConfig().getBoolean("require_hoe_for_planting");
+    	durabilityEnabled = getConfig().getBoolean("enable_durability");
+    	toolRequired = getConfig().getBoolean("require_tool_for_breaking");
+    	
         ConfigurationSection weaponsSection = getConfig().getConfigurationSection("weapons");
         for(String s : weaponsSection.getKeys(false)){
             try {
@@ -76,24 +84,42 @@ public class ImprovedDispensers extends JavaPlugin {
         }
         
         List<String> undeadStringList = getConfig().getStringList("undead");
-        List<EntityType> undeadList = new ArrayList<>();
         
-        for(String undead : undeadStringList) {
+        for(String undeadEntity : undeadStringList) {
         	try {
-				undeadList.add(EntityType.valueOf(undead.toUpperCase()));
+				undead.add(EntityType.valueOf(undeadEntity.toUpperCase()));
 			} catch (Exception e) {
-				logger.log(Level.WARNING, "The entity "+undead+" couldn't be loaded as undead.");
+				logger.log(Level.WARNING, "The entity "+undeadEntity+" couldn't be loaded as undead.");
 			}
         }
         
         List<String> arthropodStringList = getConfig().getStringList("arthropods");
-        List<EntityType> arthropodList = new ArrayList<>();
         
-        for(String arthropod : arthropodStringList) {
+        for(String arthropodEntity : arthropodStringList) {
         	try {
-        		arthropodList.add(EntityType.valueOf(arthropod.toUpperCase()));
+        		arthropods.add(EntityType.valueOf(arthropodEntity.toUpperCase()));
 			} catch (Exception e) {
-				logger.log(Level.WARNING, "The entity "+undead+" couldn't be loaded as arthropod.");
+				logger.log(Level.WARNING, "The entity "+arthropodEntity+" couldn't be loaded as arthropod.");
+			}
+        }
+        
+        List<String> hoeStringList = getConfig().getStringList("hoes");
+        
+        for(String hoe : hoeStringList) {
+        	try {
+        		hoes.add(Material.valueOf(hoe.toUpperCase()));
+			} catch (Exception e) {
+				logger.log(Level.WARNING, "The item "+hoe+" couldn't be loaded as hoe.");
+			}
+        }
+        
+        List<String> toolStringList = getConfig().getStringList("tools");
+        
+        for(String tool : toolStringList) {
+        	try {
+        		tools.add(Material.valueOf(tool.toUpperCase()));
+			} catch (Exception e) {
+				logger.log(Level.WARNING, "The item "+tool+" couldn't be loaded as tool.");
 			}
         }
     }
@@ -113,7 +139,7 @@ public class ImprovedDispensers extends JavaPlugin {
     public List<EntityType> getArthropods() {
         return arthropods;
     }
-
+    
     public Weapon getWeapon(Material material){
 	    for(Weapon weapon : getWeapons()){
 	        if(material.equals(weapon.getWeapon())){
@@ -139,4 +165,26 @@ public class ImprovedDispensers extends JavaPlugin {
     public boolean isDurabilityEnabled() {
 		return durabilityEnabled;
 	}
+    
+    public boolean isToolRequired() {
+		return toolRequired;
+	}
+    
+    public boolean isTool(Material material) {
+    	for(Material tool : tools) {
+    		if(tool.equals(material)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public boolean isHoe(Material material) {
+    	for(Material hoe : hoes) {
+    		if(hoe.equals(material)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 }

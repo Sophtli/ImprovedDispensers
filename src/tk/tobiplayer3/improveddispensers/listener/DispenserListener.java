@@ -61,9 +61,12 @@ public class DispenserListener implements Listener {
 			// check if block in front of dispenser is occupied
 			if (!targetBlock.getType().equals(Material.AIR)) {
 				// break block
+				if(plugin.isToolRequired() && !plugin.isTool(item.getType())) {
+					return;
+				}
 				targetBlock.breakNaturally(item);
 				e.setCancelled(true);
-				if (isTool(item.getType())) {
+				if (plugin.isTool(item.getType())) {
 					reduceDurability();
 				}
 				return;
@@ -100,7 +103,7 @@ public class DispenserListener implements Listener {
 							if (plugin.isHoeRequired()) {
 								for (ItemStack itemStack : inv.getContents()) {
 									if (itemStack != null) {
-										if (itemStack.getType().name().contains("HOE")) {
+										if (plugin.isHoe(itemStack.getType())) {
 											belowBlock.setType(Material.SOIL);
 											reduceDurability(itemStack);
 											break;
@@ -131,14 +134,6 @@ public class DispenserListener implements Listener {
 	}
 
 	// ---------- uility functions ----------//
-	private boolean isTool(Material material) {
-		String name = material.name();
-		if (name.contains("SWORD") || name.contains("SPADE") || name.contains("AXE") || name.contains("HOE")) {
-			return true;
-		}
-		return false;
-	}
-
 	private void reduceDurability() {
 		Bukkit.getScheduler().runTask(plugin, new Runnable() {
 			@Override

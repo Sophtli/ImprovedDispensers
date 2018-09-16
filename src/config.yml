@@ -1,5 +1,6 @@
 enable_durability: true
 require_hoe_for_planting: true
+require_tool_for_breaking: true
 weapons:
   diamond_sword: 7
   iron_sword: 6
@@ -26,6 +27,28 @@ plants:
       - 'soul_sand'
   chorus_flower/chorus_flower:
       - 'ender_stone'
+hoes:
+    - 'diamond_hoe'
+    - 'gold_hoe'
+    - 'iron_hoe'
+    - 'stone_hoe'
+    - 'wood_hoe'
+tools:
+    - 'diamond_pickaxe'
+    - 'iron_pickaxe'
+    - 'gold_pickaxe'
+    - 'stone_pickaxe'
+    - 'wood_pickaxe'
+    - 'diamond_axe'
+    - 'iron_axe'
+    - 'wood_axe'
+    - 'stone_axe'
+    - 'gold_axe'
+    - 'diamond_spade'
+    - 'iron_spade'
+    - 'gold_spade'
+    - 'stone_spade'
+    - 'wood_spade'    
 arthropods:
     - 'spider'
     - 'cave_spider'
