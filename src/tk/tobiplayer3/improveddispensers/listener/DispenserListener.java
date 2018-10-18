@@ -180,8 +180,8 @@ public class DispenserListener implements Listener {
 			public void run() {
 				for (ItemStack stack : inv.getContents()) {
 					if (stack != null) {
-						if (stack.equals(item)) {
-							stack.setAmount(-1);
+						if (stack.isSimilar(item)) {
+							stack.setAmount(stack.getAmount()-1);
 						}
 					}
 				}
