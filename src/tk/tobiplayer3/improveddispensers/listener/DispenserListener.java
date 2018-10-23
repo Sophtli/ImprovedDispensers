@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -16,7 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import tk.tobiplayer3.improveddispensers.ImprovedDispensers;
 import tk.tobiplayer3.improveddispensers.items.Plant;
@@ -36,10 +37,10 @@ public class DispenserListener implements Listener {
 
 			// get facing
 			block = e.getBlock();
-			MaterialData materialData = block.getState().getData();
+			BlockData blockData = block.getState().getBlockData();
 			Dispenser dispenser = (Dispenser) block.getState();
 			inv = dispenser.getInventory();
-			org.bukkit.material.Dispenser dispenserData = (org.bukkit.material.Dispenser) materialData;
+			org.bukkit.block.data.type.Dispenser dispenserData = (org.bukkit.block.data.type.Dispenser) blockData;
 			BlockFace blockFace = dispenserData.getFacing();
 
 			Location location = block.getLocation();
@@ -61,7 +62,7 @@ public class DispenserListener implements Listener {
 			// check if block in front of dispenser is occupied
 			if (!targetBlock.getType().equals(Material.AIR)) {
 				// break block
-				if(plugin.isToolRequired() && !plugin.isTool(item.getType())) {
+				if (plugin.isToolRequired() && !plugin.isTool(item.getType())) {
 					return;
 				}
 				targetBlock.breakNaturally(item);
@@ -92,36 +93,43 @@ public class DispenserListener implements Listener {
 					return;
 				}
 
+				if(plugin.isHoe(item.getType())) {
+					e.setCancelled(true);
+					for(ItemStack itemStack : inv.getContents()) {
+						if(!plugin.isHoe(itemStack.getType())) {
+							itemStack.setAmount(1);
+							e.setItem(itemStack);
+							e.setCancelled(false);
+						}
+					}
+				}
+				
 				if (plugin.getPlant(item.getType()) != null) {
 					Plant plant = plugin.getPlant(item.getType());
 					List<Material> ground = plant.getGround();
 
-					if (targetBlock.getType().equals(Material.AIR)) {
-
-						if ((belowBlock.getType().equals(Material.DIRT) || belowBlock.getType().equals(Material.GRASS))
-								&& ground.contains(Material.SOIL)) {
-							if (plugin.isHoeRequired()) {
-								for (ItemStack itemStack : inv.getContents()) {
-									if (itemStack != null) {
-										if (plugin.isHoe(itemStack.getType())) {
-											belowBlock.setType(Material.SOIL);
-											reduceDurability(itemStack);
-											break;
-										}
+					if ((belowBlock.getType().equals(Material.DIRT) || belowBlock.getType().equals(Material.GRASS_BLOCK))
+							&& ground.contains(Material.FARMLAND)) {
+						if (plugin.isHoeRequired()) {
+							for (ItemStack itemStack : inv.getContents()) {
+								if (itemStack != null) {
+									if (plugin.isHoe(itemStack.getType())) {
+										belowBlock.setType(Material.FARMLAND);
+										reduceDurability(itemStack);
+										break;
 									}
 								}
 							}
 						}
-
-						if (ground.contains(belowBlock.getType())) {
-							targetBlock.setType(plant.getPlant());
-							removeItem();
-							e.setCancelled(true);
-						}
+					}
+					if (ground.contains(belowBlock.getType())) {
+						targetBlock.setType(plant.getPlant());
+						removeItem();
+						e.setCancelled(true);
 					}
 					return;
 				}
-				
+
 				// place block
 				if (item.getType().isBlock()) {
 					targetBlock.setType(item.getType());
@@ -141,11 +149,14 @@ public class DispenserListener implements Listener {
 				for (ItemStack stack : inv.getContents()) {
 					if (stack != null) {
 						if (stack.equals(item)) {
-							int newDurability = item.getDurability() + 1;
+							org.bukkit.inventory.meta.Damageable meta = (org.bukkit.inventory.meta.Damageable) stack
+									.getItemMeta();
+							int newDurability = meta.getDamage() + 1;
 							if (stack.getType().getMaxDurability() < newDurability) {
 								stack.setAmount(-1);
 							} else {
-								stack.setDurability((short) newDurability);
+								meta.setDamage(newDurability);
+								stack.setItemMeta((ItemMeta) meta);
 							}
 						}
 					}
@@ -161,11 +172,14 @@ public class DispenserListener implements Listener {
 				for (ItemStack stack : inv.getContents()) {
 					if (stack != null) {
 						if (stack.equals(itemStack)) {
-							int newDurability = itemStack.getDurability() + 1;
+							org.bukkit.inventory.meta.Damageable meta = (org.bukkit.inventory.meta.Damageable) stack
+									.getItemMeta();
+							int newDurability = meta.getDamage() + 1;
 							if (stack.getType().getMaxDurability() < newDurability) {
 								stack.setAmount(-1);
 							} else {
-								stack.setDurability((short) newDurability);
+								meta.setDamage(newDurability);
+								stack.setItemMeta((ItemMeta) meta);
 							}
 						}
 					}
@@ -181,7 +195,7 @@ public class DispenserListener implements Listener {
 				for (ItemStack stack : inv.getContents()) {
 					if (stack != null) {
 						if (stack.isSimilar(item)) {
-							stack.setAmount(stack.getAmount()-1);
+							stack.setAmount(stack.getAmount() - 1);
 						}
 					}
 				}

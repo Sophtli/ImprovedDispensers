@@ -11,6 +11,7 @@ import tk.tobiplayer3.improveddispensers.items.Plant;
 import tk.tobiplayer3.improveddispensers.items.Weapon;
 import tk.tobiplayer3.improveddispensers.listener.DispenserListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,8 +39,10 @@ public class ImprovedDispensers extends JavaPlugin {
 
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new DispenserListener(), this);
-
+        
         saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
         loadConfig();
     }
 
@@ -48,6 +51,13 @@ public class ImprovedDispensers extends JavaPlugin {
     }
 
     private void loadConfig(){
+    	if(getConfig().contains("version")) {
+    		if(!getConfig().getString("version").equals(getDescription().getVersion())) {
+    		    resetConfig();
+    		}
+    	}else{
+    	    resetConfig();
+    	}
     	
     	hoeRequired = getConfig().getBoolean("require_hoe_for_planting");
     	durabilityEnabled = getConfig().getBoolean("enable_durability");
@@ -186,5 +196,14 @@ public class ImprovedDispensers extends JavaPlugin {
     		}
     	}
     	return false;
+    }
+    
+    private void resetConfig() {
+        File configFile = new File(getDataFolder(), "config.yml");
+        File file = new File(getDataFolder(),"config.yml.old");
+        configFile.renameTo(file);
+        configFile.delete();
+        saveDefaultConfig();
+        reloadConfig();
     }
 }

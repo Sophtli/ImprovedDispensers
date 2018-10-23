@@ -1,4 +1,5 @@
 main: tk.tobiplayer3.improveddispensers.ImprovedDispensers
 author: Tobiplayer3
-version: 2.1
+version: 1.13-1.0
 name: ImprovedDispensers
+api-version: 1.13

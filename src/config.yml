@@ -1,3 +1,4 @@
+version: "1.13-1.0"
 enable_durability: true
 require_hoe_for_planting: true
 require_tool_for_breaking: true
@@ -5,50 +6,65 @@ weapons:
   diamond_sword: 7
   iron_sword: 6
   stone_sword: 5
-  gold_sword: 4
-  wood_sword: 4
+  golden_sword: 4
+  wooden_sword: 4
 plants:
-  sapling/sapling:
+  oak_sapling/oak_sapling:
       - 'dirt'
-      - 'grass'
-  carrot/carrot_item:
-      - 'soil'
-  potato/potato_item:
-      - 'soil'
+      - 'grass_block'
+  spruce_sapling/spruce_sapling:
+      - 'dirt'
+      - 'grass_block'
+  birch_sapling/birch_sapling:
+      - 'dirt'
+      - 'grass_block'
+  jungle_sapling/jungle_sapling:
+      - 'dirt'
+      - 'grass_block'
+  acacia_sapling/acacia_sapling:
+      - 'dirt'
+      - 'grass_block'      
+  dark_oak_sapling/dark_oak_sapling:
+      - 'dirt'
+      - 'grass_block'
+  carrots/carrot:
+      - 'farmland'
+  potatoes/potato:
+      - 'farmland'
   pumpkin_stem/pumpkin_seeds:
-      - 'soil'
+      - 'farmland'
   melon_stem/melon_seeds:
-      - 'soil'
-  beetroot_block/beetroot_seeds:
-      - 'soil'
-  crops/seeds:
-      - 'soil'
-  nether_stalk/nether_warts:
+      - 'farmland'
+  beetroots/beetroot_seeds:
+      - 'farmland'
+  wheat/wheat_seeds:
+      - 'farmland'
+  nether_wart/nether_wart:
       - 'soul_sand'
   chorus_flower/chorus_flower:
-      - 'ender_stone'
+      - 'end_stone'
 hoes:
     - 'diamond_hoe'
-    - 'gold_hoe'
+    - 'golden_hoe'
     - 'iron_hoe'
     - 'stone_hoe'
-    - 'wood_hoe'
+    - 'wooden_hoe'
 tools:
     - 'diamond_pickaxe'
     - 'iron_pickaxe'
-    - 'gold_pickaxe'
+    - 'golden_pickaxe'
     - 'stone_pickaxe'
-    - 'wood_pickaxe'
+    - 'wooden_pickaxe'
     - 'diamond_axe'
     - 'iron_axe'
-    - 'wood_axe'
+    - 'wooden_axe'
     - 'stone_axe'
-    - 'gold_axe'
-    - 'diamond_spade'
-    - 'iron_spade'
-    - 'gold_spade'
-    - 'stone_spade'
-    - 'wood_spade'    
+    - 'golden_axe'
+    - 'diamond_shovel'
+    - 'iron_shovel'
+    - 'golden_shovel'
+    - 'stone_shovel'
+    - 'wooden_shovel'    
 arthropods:
     - 'spider'
     - 'cave_spider'
