@@ -1,2 +1,2 @@
 # ImprovedDispensers
-This is a Minecraft Spigot Plugin which limits the playtime.
+This is a Minecraft Spigot Plugin which limits the playtime..
